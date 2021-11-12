@@ -1,0 +1,13 @@
+le program converti le premier argument en nombre
+    iVar1 = atoi(argv[1]);
+
+et le compare a 423
+    if (iVar1 == 423)
+
+et execute un shell
+    execv("/bin/sh", tab);
+
+on donne 423 en argument a level0 qui ouvre un shell avec les droits de level1
+$ ./level0 423
+$> cat /home/user/level1/.pass
+1fe8a524fa4bec01ca4ea2a869af2a02260d4a7d5fe7e7c24d8617e6dca12d3a

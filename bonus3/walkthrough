@@ -1,0 +1,23 @@
+local_14 = fopen("/home/user/end/.pass","r");
+fread(local_98, 1, 66, local_14);
+
+le program ouvre le fichier /home/user/end/.pass et lis son contenue
+
+iVar2 = atoi(argv[1]);
+*(char *)((int)local_98 + iVar2) = 0;
+
+le program prend le premier argument et le transforme en nombre avec atoi et set a 0 le caractere a l'index du premier argument transforme en nombre dans le buffer du mot de passe lu
+
+iVar2 = strcmp((char *)local_98, argv[1]);
+if (iVar2 == 0)
+    execl("/bin/sh","sh",0);
+
+ensuite il compare le contenue lu du mot de passe avec le premier argument
+
+si on met en premier argument une chaine vide atoi retourne 0 et donc 0 sera set dans le premier caractere du contenue lu du mot de passe et donc deviendra une chaine vide qui est egale au premier argument
+
+donc strcmp retourne 0 et un shell est lance
+
+$ ./bonus3 ""
+$ cat /home/user/end/.pass
+3321b6f81659f9a71c76616f606e4b50189cecfea611393d5d649f75e157353c

