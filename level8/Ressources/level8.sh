@@ -21,6 +21,6 @@ sshpass -p "${act_level_password}" ssh level${ACTUAL_LEVEL}@${VM_ID} -p 4242 'ec
 
 flag=$(sshpass -p "${act_level_password}" ssh level${ACTUAL_LEVEL}@${VM_ID} -p 4242 'cat /tmp/level8_cmd1 /tmp/level8_cmd2 /tmp/level8_cmd3 /tmp/level8_cmd4 | ./level8' 2> /dev/null)
 
-flag="$(echo ${flag} | tail -n 1 | grep --only-matching --color=never '[a-z0-9]\{64,64\}' | tail -n 1)"
+#flag="$(echo ${flag} | tail -n 1 | grep --only-matching --color=never '[a-z0-9]\{64,64\}' | tail -n 1)"
 
 echo -e "FLAG:\n${flag}"
